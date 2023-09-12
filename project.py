@@ -14,6 +14,8 @@ import json
 # Load the data from the Excel file
 df = pd.read_excel('stock_prices(final).xlsx')
 df['Date'] = pd.to_datetime(df['Date'])  # Convert 'Date' column to datetime type
+df['Volume'] = df['Volume'].str.replace(',', '').astype(float)
+
 
 
 
