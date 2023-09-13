@@ -113,7 +113,7 @@ def update_plots(selected_option):
         ]
     elif selected_option == 'all':
         # Create line plot for all data
-        line_fig_all = px.line(df, x='Date', y='Close', title='Stock Close Price (2022 to May 2023)')
+        line_fig_all = px.line(df, x='Date', y='Close', title='Stock Close Price (2022 to SEPT 2023)')
 
         scatter_fig_all= px.scatter(df, x='Date', y='Close', title='Stock Close Price in 2023', color='Open')
 
@@ -122,7 +122,7 @@ def update_plots(selected_option):
         reg_fig_all.update_traces(marker=dict(size=8))
 
         # Create bar plot for all data
-        bar_fig_all = px.bar(df, x='Date', y='Volume', title='Stock Volume (2022 to May 2023)')
+        bar_fig_all = px.bar(df, x='Date', y='Volume', title='Stock Volume (2022 to SEPT 2023)')
 
         # Create hit plot for all data (assuming 'High' and 'Low' columns are present)
         hit_fig_all = go.Figure(data=[go.Candlestick(x=df['Date'],
@@ -130,14 +130,14 @@ def update_plots(selected_option):
                                                      high=df['High'],
                                                      low=df['Low'],
                                                      close=df['Close'])])
-        hit_fig_all.update_layout(title='Stock High, Low, Open, Close (2022 to May 2023)')
+        hit_fig_all.update_layout(title='Stock High, Low, Open, Close (2022 to SEPT 2023)')
         # Prepare the data for regression
         X = df[['Open', 'High', 'Low', 'Volume']]  # Input features
         y = df['Close']  # Target variable
 
         # Split the data into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        
+
         reg_model = LinearRegression()
         reg_model.fit( X_train, y_train)
 
