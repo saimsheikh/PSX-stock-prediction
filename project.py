@@ -15,13 +15,6 @@ import json
 # Load the data from the Excel file
 df = pd.read_excel('stock_prices(final).xlsx')
 df['Date'] = pd.to_datetime(df['Date'])  # Convert 'Date' column to datetime type
-df['Volume'] = df['Volume'].str.replace('[^0-9,]', '', regex=True)
-
-# Replace commas with an empty string
-df['Volume'] = df['Volume'].str.replace(',', '')
-
-# Convert the 'Volume' column to float
-df['Volume'] = df['Volume'].astype(float)
 
 
 
@@ -38,7 +31,7 @@ app.layout = html.Div([
         options=[
             {'label': 'Select an option', 'value': ''},
             {'label': 'Data of 2023', 'value': '2023'},
-            {'label': 'All Data (2022 to May 2023)', 'value': 'all'}
+            {'label': 'All Data (2022 to SEPT 2023)', 'value': 'all'}
         ],
         value=''
     ),
@@ -144,22 +137,12 @@ def update_plots(selected_option):
 
         # Split the data into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
         
-        # Identify missing values in X
-        missing_values = X_train.isna().sum()
-
-        # Create an imputer
-        imputer = SimpleImputer(strategy='mean')
-
-        # Fit the imputer on the training data and transform both training and testing data
-        X_train_imputed = imputer.fit_transform(X_train)
-        X_test_imputed = imputer.transform(X_test)
         reg_model = LinearRegression()
-        reg_model.fit( X_train_imputed, y_train)
+        reg_model.fit( X_train, y_train)
 
         # Make predictions on the test data
-        y_pred = reg_model.predict(X_test_imputed)
+        y_pred = reg_model.predict(X_test)
         residuals = y_test - y_pred
         residual_fig = go.Figure(data=go.Scatter(x=y_test, y=residuals, mode='markers'))
         residual_fig.update_layout(title='Residual Plot', xaxis_title='Actual Close Value', yaxis_title='Residuals')
